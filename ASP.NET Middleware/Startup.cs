@@ -1,11 +1,9 @@
-using ASP.NET_Middleware.CustomMiddleware;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using System;
 
 namespace ASP.NET_Middleware
 {
@@ -35,7 +33,7 @@ namespace ASP.NET_Middleware
             //Requests are processed from top to bottom and outside to inside and back again
             //These are created once in startup
 
-            app.UseMiddleware<ExceptionMiddleware>();
+            //app.UseMiddleware<ExceptionMiddleware>();
 
             //2. Use - used to log browser information or any other request logs
             //app.Use(async (context, next) =>
@@ -59,7 +57,6 @@ namespace ASP.NET_Middleware
             //1. Run - should always be the last one in pipeline
             app.Run(async (context) =>
             {
-                throw new Exception("test");
                 await context.Response.WriteAsync("Hello from Run Middleware <br/>");
             });
         }
@@ -73,10 +70,10 @@ namespace ASP.NET_Middleware
                 await context.Response.WriteAsync("Bye from inside Map Use Middleware <br/>");
             });
 
-            //app.Run(async (context) =>
-            //{
-            //    await context.Response.WriteAsync("Hello from inside Map Run Middleware <br/>");
-            //});
+            app.Run(async (context) =>
+            {
+                await context.Response.WriteAsync("Hello from inside Map Run Middleware <br/>");
+            });
         }
     }
 }
